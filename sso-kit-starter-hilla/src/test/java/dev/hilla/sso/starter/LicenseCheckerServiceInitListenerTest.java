@@ -32,7 +32,6 @@ import static org.hamcrest.text.MatchesPattern.matchesPattern;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mockStatic;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class LicenseCheckerServiceInitListenerTest {
@@ -53,10 +52,7 @@ class LicenseCheckerServiceInitListenerTest {
     }
 
     @Test
-    public void developmentMode_licenseIsCheckedRuntime() {
-        when(service.getDeploymentConfiguration().isProductionMode())
-                .thenReturn(false);
-
+    public void serviceInit_licenseIsCheckedRuntime() {
         final var version = getProperties().getProperty(
                 LicenseCheckerServiceInitListener.VERSION_PROPERTY);
 
@@ -71,17 +67,6 @@ class LicenseCheckerServiceInitListenerTest {
         licenseChecker.verify(() -> LicenseChecker.checkLicense(
                 LicenseCheckerServiceInitListener.PRODUCT_NAME, version,
                 buildType));
-    }
-
-    @Test
-    public void productionMode_licenseIsNotCheckedRuntime() {
-        when(service.getDeploymentConfiguration().isProductionMode())
-                .thenReturn(true);
-
-        final var listener = new LicenseCheckerServiceInitListener();
-        listener.serviceInit(new ServiceInitEvent(service));
-
-        licenseChecker.verifyNoInteractions();
     }
 
     @Test

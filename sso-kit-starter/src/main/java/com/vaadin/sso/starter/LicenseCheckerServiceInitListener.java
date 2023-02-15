@@ -35,21 +35,17 @@ public class LicenseCheckerServiceInitListener
 
     @Override
     public void serviceInit(ServiceInitEvent event) {
-        final var service = event.getSource();
-
         try {
             final var properties = loadAllProperties(PROPERTIES_RESOURCE);
             final var version = properties.getProperty(VERSION_PROPERTY);
 
             UsageStatistics.markAsUsed(PRODUCT_NAME, version);
 
-            // Check the license at runtime if in development mode
-            if (!service.getDeploymentConfiguration().isProductionMode()) {
-                // Using a null BuildType to allow trial licensing builds
-                // The variable is defined to avoid method signature ambiguity
-                BuildType buildType = null;
-                LicenseChecker.checkLicense(PRODUCT_NAME, version, buildType);
-            }
+            // Check the license at runtime
+            // Using a null BuildType to allow trial licensing builds
+            // The variable is defined to avoid method signature ambiguity
+            BuildType buildType = null;
+            LicenseChecker.checkLicense(PRODUCT_NAME, version, buildType);
         } catch (IOException e) {
             throw new ExceptionInInitializerError(e);
         }
