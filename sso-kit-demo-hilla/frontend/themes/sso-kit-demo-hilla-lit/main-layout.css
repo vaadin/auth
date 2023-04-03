@@ -1,0 +1,38 @@
+vaadin-scroller[slot='drawer'] {
+  flex: auto;
+  padding: var(--lumo-space-s);
+}
+
+[slot='drawer']:is(header, footer) {
+  display: flex;
+  align-items: center;
+  gap: var(--lumo-space-s);
+  padding: var(--lumo-space-s) var(--lumo-space-m);
+  min-height: var(--lumo-size-xl);
+  box-sizing: border-box;
+}
+
+[slot='drawer']:is(header, footer):is(:empty) {
+  display: none;
+}
+
+.navicon {
+  --mask-repeat: no-repeat;
+  --mask-position: 50%;
+  vertical-align: middle;
+  --_size: var(--lumo-icon-size-m);
+
+  mask-image: var(--mask-image);
+  mask-repeat: var(--mask-repeat);
+  mask-position: var(--mask-position);
+
+  width: var(--_size);
+  height: var(--_size);
+  background-color: currentColor;
+  display: inline-block;
+  flex: none;
+
+  -webkit-mask-image: var(--mask-image);
+  -webkit-mask-repeat: var(--mask-repeat);
+  -webkit-mask-position: var(--mask-position);
+}
